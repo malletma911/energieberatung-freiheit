@@ -16,6 +16,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLEg=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -365,42 +368,155 @@
         </div>
       </div>
       <div class="region__map-wrap reveal reveal-delay-2">
-        <!-- SVG map of Schleswig-Holstein -->
-        <svg class="region__map" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" aria-label="Karte Schleswig-Holstein">
-          <!-- Sea background -->
-          <rect width="400" height="500" fill="#0F1923"/>
-          <!-- Simplified Schleswig-Holstein outline -->
+        <div id="region-map" aria-label="Karte Schleswig-Holstein"></div>
+        <!-- SVG-Fallback entfernt, wird durch Leaflet ersetzt -->
+        <svg class="region__map" viewBox="0 0 440 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <!-- Subtle grid pattern -->
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+
+          <!-- Background: sea -->
+          <rect width="440" height="560" fill="#0a1520"/>
+          <rect width="440" height="560" fill="url(#grid)"/>
+
+          <!-- Nordsee label -->
+          <text x="42" y="200" font-size="9" fill="#2a4a62" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(-90,42,200)">NORDSEE</text>
+          <!-- Ostsee label -->
+          <text x="398" y="210" font-size="9" fill="#2a4a62" font-family="Inter,sans-serif" letter-spacing="2" transform="rotate(90,398,210)">OSTSEE</text>
+
+          <!-- Dänische Grenze (gestrichelt) -->
+          <line x1="148" y1="42" x2="310" y2="42" stroke="rgba(142,155,170,0.35)" stroke-width="1.2" stroke-dasharray="5 4"/>
+          <text x="218" y="36" font-size="8" fill="rgba(142,155,170,0.5)" font-family="Inter,sans-serif" text-anchor="middle" letter-spacing="1">DÄNEMARK</text>
+
+          <!-- ── Hauptfläche Schleswig-Holstein ── -->
+          <!-- Westküste (Nordsee) → Süden → Ostküste (Ostsee) → Norden -->
           <path d="
-            M180 30 L200 20 L230 25 L260 35 L275 55 L265 75 L280 90 L295 100
-            L305 120 L300 140 L290 155 L295 175 L285 195 L275 210 L265 230
-            L255 250 L260 270 L255 290 L240 310 L230 330 L220 355 L215 375
-            L205 390 L195 400 L185 390 L175 370 L165 350 L158 330 L155 310
-            L145 295 L140 275 L145 255 L140 235 L130 215 L120 195 L115 175
-            L110 155 L105 135 L110 115 L120 100 L130 85 L125 65 L135 48 L155 35 Z
-          " fill="#1d3a52" stroke="#243f58" stroke-width="1.5"/>
-          <!-- Flensburg area (north) -->
-          <path d="M185 30 L210 22 L235 30 L255 50 L245 65 L225 60 L205 55 L188 45 Z" fill="#1a3347" opacity="0.7"/>
-          <!-- Schleswig (marker) -->
-          <g transform="translate(190, 145)">
-            <circle r="10" fill="rgba(232,168,56,0.15)" stroke="var(--color-amber, #E8A838)" stroke-width="1.5"/>
-            <circle r="4" fill="#E8A838"/>
-            <!-- Pulse ring -->
-            <circle r="10" fill="none" stroke="#E8A838" stroke-width="1.5" opacity="0.6">
-              <animate attributeName="r" from="4" to="20" dur="2s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" from="0.7" to="0" dur="2s" repeatCount="indefinite"/>
+            M 148 42
+            L 132 52  L 118 62  L 108 78  L 100 95
+            L 96 112  L 92 128  L 88 140  L 84 158
+            L 80 172  L 78 188  L 80 200  L 85 212
+            L 88 224  L 84 238  L 80 252  L 78 268
+            L 80 280  L 85 292  L 92 302  L 98 315
+            L 104 328 L 108 342 L 110 358 L 112 374
+            L 116 388 L 120 400 L 126 412 L 132 422
+            L 140 432 L 148 440 L 158 446 L 168 450
+            L 178 454 L 192 458 L 206 460 L 220 462
+            L 234 460 L 248 456 L 260 450 L 270 444
+            L 278 436 L 286 428 L 292 418 L 298 408
+            L 304 398 L 310 388 L 318 376 L 325 364
+            L 330 350 L 333 336 L 332 322 L 328 308
+            L 322 296 L 316 284 L 312 270 L 314 256
+            L 318 242 L 322 228 L 326 214 L 328 200
+            L 326 186 L 320 174 L 316 160 L 318 146
+            L 322 132 L 326 118 L 328 104 L 324 90
+            L 318 76  L 310 64  L 310 42
+            Z
+          " fill="#1a3347" stroke="#253f58" stroke-width="1.2"/>
+
+          <!-- Westküstendetail: Elbmündung -->
+          <path d="M 120 400 C 130 410 145 418 148 440" fill="none" stroke="#253f58" stroke-width="0.8"/>
+
+          <!-- Schleswig-Holstein Binnengewässer: NOK (Nord-Ostsee-Kanal) -->
+          <path d="M 100 315 C 120 318 145 322 168 325 C 200 328 230 330 260 330 C 285 330 305 326 325 320" fill="none" stroke="#0F2840" stroke-width="3" opacity="0.9"/>
+          <path d="M 100 315 C 120 318 145 322 168 325 C 200 328 230 330 260 330 C 285 330 305 326 325 320" fill="none" stroke="#3A7CA5" stroke-width="1" opacity="0.4"/>
+          <text x="205" y="323" font-size="7" fill="#3A7CA5" font-family="Inter,sans-serif" text-anchor="middle" opacity="0.7" letter-spacing="1">NOK</text>
+
+          <!-- Schlei (Förde bei Schleswig) -->
+          <path d="M 222 158 C 240 162 262 168 278 172 C 295 176 308 175 318 174" fill="none" stroke="#3A7CA5" stroke-width="1.2" opacity="0.5"/>
+
+          <!-- Flensburger Förde -->
+          <path d="M 230 62 C 238 75 242 90 244 105 C 246 118 244 130 240 140" fill="none" stroke="#3A7CA5" stroke-width="1.5" opacity="0.45"/>
+
+          <!-- Kieler Förde -->
+          <path d="M 296 245 C 302 255 308 268 312 280" fill="none" stroke="#3A7CA5" stroke-width="2" opacity="0.5"/>
+
+          <!-- Eider-Fluss -->
+          <path d="M 92 248 C 108 250 126 252 144 255 C 162 258 178 258 192 255" fill="none" stroke="#3A7CA5" stroke-width="1" opacity="0.35"/>
+
+          <!-- ── Nordsee-Inseln ── -->
+          <!-- Sylt -->
+          <path d="M 52 68 C 48 75 44 85 44 96 C 44 108 46 120 50 130 C 54 140 58 148 60 156 C 62 164 60 170 56 172 C 52 170 48 165 46 158 C 42 148 42 136 42 124 C 42 112 44 100 46 90 C 48 80 50 72 52 68 Z" fill="#1e3d54" stroke="#2a4f68" stroke-width="1"/>
+          <text x="50" y="122" font-size="7" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="middle">Sylt</text>
+
+          <!-- Föhr -->
+          <path d="M 60 192 C 56 194 54 198 54 203 C 54 208 56 212 60 214 C 65 216 70 215 74 212 C 78 208 80 204 78 200 C 76 196 72 192 68 191 C 65 190 62 191 60 192 Z" fill="#1e3d54" stroke="#2a4f68" stroke-width="1"/>
+          <text x="67" y="210" font-size="6.5" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="middle">Föhr</text>
+
+          <!-- Pellworm -->
+          <path d="M 68 232 C 64 234 62 238 62 243 C 62 248 64 252 68 254 C 72 256 76 255 78 252 C 80 248 80 244 78 240 C 76 236 72 231 68 232 Z" fill="#1e3d54" stroke="#2a4f68" stroke-width="1"/>
+
+          <!-- Helgoland (weit draußen) -->
+          <path d="M 30 290 C 28 292 27 295 28 298 C 29 301 32 303 35 302 C 38 301 39 298 38 295 C 37 292 34 289 30 290 Z" fill="#1e3d54" stroke="#2a4f68" stroke-width="1"/>
+          <text x="34" y="307" font-size="6" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="middle">Helgoland</text>
+
+          <!-- Fehmarn (Ostsee) -->
+          <path d="M 310 430 C 305 428 298 428 294 432 C 290 436 290 442 294 446 C 298 450 306 452 312 450 C 318 448 322 444 320 440 C 318 436 314 432 310 430 Z" fill="#1e3d54" stroke="#2a4f68" stroke-width="1"/>
+          <text x="306" y="443" font-size="6.5" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="middle">Fehmarn</text>
+
+          <!-- ── Kreise / Bezirke (feine Linien) ── -->
+          <!-- Kreis Schleswig-Flensburg (grober Umriss) -->
+          <path d="M 148 42 L 310 42 L 316 80 L 312 120 L 305 155 L 285 160 L 262 155 L 240 158 L 220 155 L 200 158 L 180 155 L 160 158 L 148 152 L 136 148 L 124 135 L 112 115 L 108 90 L 118 68 Z" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+
+          <!-- ── Service-Radius ── -->
+          <circle cx="222" cy="165" r="115" fill="rgba(232,168,56,0.03)" stroke="rgba(232,168,56,0.18)" stroke-width="1" stroke-dasharray="6 5"/>
+
+          <!-- ── Stadtmarker ── -->
+          <!-- Flensburg -->
+          <circle cx="240" cy="78" r="3" fill="#3A7CA5"/>
+          <text x="250" y="82" font-size="8.5" fill="#8E9BAA" font-family="Inter,sans-serif">Flensburg</text>
+
+          <!-- Schleswig — Hauptmarker -->
+          <g filter="url(#glow)">
+            <circle cx="222" cy="165" r="12" fill="rgba(232,168,56,0.1)" stroke="#E8A838" stroke-width="1.5"/>
+            <circle cx="222" cy="165" r="4.5" fill="#E8A838"/>
+            <circle cx="222" cy="165" r="12" fill="none" stroke="#E8A838" stroke-width="1.2" opacity="0">
+              <animate attributeName="r" from="5" to="24" dur="2.2s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" from="0.65" to="0" dur="2.2s" repeatCount="indefinite"/>
             </circle>
           </g>
-          <!-- City dots -->
-          <circle cx="195" cy="55" r="2.5" fill="#3A7CA5" opacity="0.8"/> <!-- Flensburg -->
-          <circle cx="170" cy="245" r="2.5" fill="#3A7CA5" opacity="0.8"/> <!-- Rendsburg -->
-          <circle cx="215" cy="330" r="2.5" fill="#3A7CA5" opacity="0.8"/> <!-- Neumünster -->
-          <!-- Labels -->
-          <text x="205" y="53" font-size="9" fill="#8E9BAA" font-family="Inter, sans-serif">Flensburg</text>
-          <text x="175" y="143" font-size="10" fill="#E8A838" font-weight="600" font-family="Inter, sans-serif">Schleswig</text>
-          <text x="178" y="248" font-size="9" fill="#8E9BAA" font-family="Inter, sans-serif">Rendsburg</text>
-          <text x="220" y="330" font-size="9" fill="#8E9BAA" font-family="Inter, sans-serif">Neumünster</text>
-          <!-- Service radius -->
-          <circle cx="190" cy="145" r="130" fill="rgba(232,168,56,0.04)" stroke="rgba(232,168,56,0.15)" stroke-width="1" stroke-dasharray="6 4"/>
+          <text x="232" y="162" font-size="10" fill="#E8A838" font-weight="700" font-family="Inter,sans-serif">Schleswig</text>
+
+          <!-- Husum -->
+          <circle cx="115" cy="175" r="2.5" fill="#3A7CA5" opacity="0.75"/>
+          <text x="90" y="172" font-size="8" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="end">Husum</text>
+
+          <!-- Rendsburg -->
+          <circle cx="192" cy="255" r="2.5" fill="#3A7CA5" opacity="0.75"/>
+          <text x="202" y="259" font-size="8" fill="#8E9BAA" font-family="Inter,sans-serif">Rendsburg</text>
+
+          <!-- Kiel -->
+          <circle cx="300" cy="258" r="3.5" fill="#3A7CA5" opacity="0.9"/>
+          <text x="308" y="262" font-size="9" fill="#8E9BAA" font-family="Inter,sans-serif">Kiel</text>
+
+          <!-- Neumünster -->
+          <circle cx="230" cy="335" r="2.5" fill="#3A7CA5" opacity="0.75"/>
+          <text x="238" y="339" font-size="8" fill="#8E9BAA" font-family="Inter,sans-serif">Neumünster</text>
+
+          <!-- Lübeck -->
+          <circle cx="320" cy="375" r="3" fill="#3A7CA5" opacity="0.75"/>
+          <text x="326" y="379" font-size="8.5" fill="#8E9BAA" font-family="Inter,sans-serif">Lübeck</text>
+
+          <!-- Heide -->
+          <circle cx="118" cy="258" r="2" fill="#3A7CA5" opacity="0.6"/>
+          <text x="90" y="256" font-size="7.5" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="end">Heide</text>
+
+          <!-- Itzehoe -->
+          <circle cx="158" cy="365" r="2" fill="#3A7CA5" opacity="0.6"/>
+          <text x="166" y="369" font-size="7.5" fill="#8E9BAA" font-family="Inter,sans-serif">Itzehoe</text>
+
+          <!-- Hamburg-Andeutung im Süden -->
+          <circle cx="220" cy="462" r="4" fill="#243f58" stroke="#3A7CA5" stroke-width="1" opacity="0.6"/>
+          <text x="220" y="478" font-size="8" fill="#8E9BAA" font-family="Inter,sans-serif" text-anchor="middle" opacity="0.7">Hamburg</text>
+
+          <!-- Elbe-Beschriftung -->
+          <text x="145" y="445" font-size="7" fill="#3A7CA5" font-family="Inter,sans-serif" opacity="0.5" letter-spacing="1">ELBE</text>
         </svg>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { initParticles } from './particles.js'
 import { initCounters } from './counters.js'
 import { initAccordion } from './accordion.js'
 import { initContactForm } from './contact-form.js'
+import { initMap } from './map.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   initNav()
@@ -12,4 +13,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters()
   initAccordion()
   initContactForm()
+  initMap()
 })
