@@ -1,7 +1,7 @@
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 
 .form-group {
@@ -36,7 +36,7 @@
   background: #fff;
   border: 1.5px solid #d0d8e0;
   border-radius: var(--radius-sm);
-  padding: 0.9rem 1rem 0.6rem;
+  padding: 0.75rem 0.875rem 0.45rem;
   font-size: var(--text-sm);
   color: var(--color-dark-text);
   outline: none;
@@ -46,9 +46,9 @@
 }
 
 .form-group textarea {
-  min-height: 140px;
+  min-height: 100px;
   resize: vertical;
-  padding-top: 1.4rem;
+  padding-top: 1.2rem;
 }
 
 .form-group select {

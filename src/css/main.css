@@ -22,12 +22,16 @@ html { scroll-behavior: smooth; }
 }
 
 .about__text p {
-  color: #8E9BAA;
+  color: var(--color-muted);
   line-height: 1.8;
   margin-bottom: var(--space-4);
 }
 
 .about__text p:last-of-type { margin-bottom: 0; }
+
+/* Text farben auf dunklem about-Hintergrund */
+.section--about .section-label { color: var(--color-amber); }
+.section--about .section-title { color: var(--color-text); }
 
 /* ── Philosophy section ── */
 .philosophy {
@@ -184,10 +188,7 @@ html { scroll-behavior: smooth; }
 
 .contact-hours {
   margin-top: var(--space-6);
-  padding: var(--space-5);
-  background: var(--color-surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--color-border);
+  padding: var(--space-2) 0;
 }
 
 .contact-hours__title {
@@ -203,6 +204,46 @@ html { scroll-behavior: smooth; }
   font-size: var(--text-sm);
   color: var(--color-muted);
   line-height: 1.7;
+}
+
+/* ── Merged region+contact form ── */
+.region-form-wrap {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-12);
+  max-width: 680px;
+  border-left: 2px solid rgba(232,168,56,0.3);
+  padding-left: var(--space-8);
+  animation: formGlow 3s ease-out 1s both;
+}
+
+@keyframes formGlow {
+  0%   { border-left-color: rgba(232,168,56,0); }
+  50%  { border-left-color: rgba(232,168,56,0.7); }
+  100% { border-left-color: rgba(232,168,56,0.3); }
+}
+
+.region-form-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.region-form-subtitle {
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  margin-bottom: var(--space-8);
+  max-width: 560px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
 }
 
 /* Legal pages */

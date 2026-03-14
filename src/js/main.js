@@ -13,5 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters()
   initAccordion()
   initContactForm()
-  initMap()
 })
+
+window.addEventListener('load', initMap)

@@ -12,6 +12,7 @@ section {
 .section--dark  { background: var(--color-bg); }
 .section--surface { background: var(--color-surface); }
 .section--light { background: var(--color-light-bg); color: var(--color-dark-text); }
+.section--about { background: var(--color-bg); overflow: hidden; }
 
 .grid-2 {
   display: grid;
