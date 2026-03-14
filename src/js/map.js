@@ -17,7 +17,8 @@ export function initMap() {
   renderMap(container)
 }
 
-function renderMap(container) {
+function renderMap() {
+  const container = document.getElementById('region-map')
   const L = window.L
 
   const map = L.map('region-map', {
@@ -89,6 +90,23 @@ function renderMap(container) {
       })
       .addTo(map)
   })
+
+  // Leaflet braucht korrekte Container-Größe — reveal-Animation setzt opacity:0
+  // invalidateSize wenn der Container sichtbar wird
+  const wrap = container.closest('.reveal')
+  if (wrap) {
+    const observer = new MutationObserver(() => {
+      if (wrap.classList.contains('visible')) {
+        setTimeout(() => map.invalidateSize(), 100)
+        observer.disconnect()
+      }
+    })
+    observer.observe(wrap, { attributes: true, attributeFilter: ['class'] })
+    // Falls bereits sichtbar
+    if (wrap.classList.contains('visible')) {
+      setTimeout(() => map.invalidateSize(), 100)
+    }
+  }
 
   // Styles in <head> injizieren
   if (!document.getElementById('map-styles')) {
