@@ -1,7 +1,23 @@
 export function initMap() {
   const container = document.getElementById('region-map')
-  if (!container || typeof window.L === 'undefined') return
+  if (!container) return
 
+  // Leaflet CDN könnte noch laden — warte bis verfügbar
+  if (typeof window.L === 'undefined') {
+    const check = setInterval(() => {
+      if (typeof window.L !== 'undefined') {
+        clearInterval(check)
+        renderMap(container)
+      }
+    }, 100)
+    setTimeout(() => clearInterval(check), 10000) // Timeout nach 10s
+    return
+  }
+
+  renderMap(container)
+}
+
+function renderMap(container) {
   const L = window.L
 
   const map = L.map('region-map', {
