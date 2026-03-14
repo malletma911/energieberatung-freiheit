@@ -1,0 +1,220 @@
+@import './reset.css';
+@import './variables.css';
+@import './typography.css';
+@import './layout.css';
+@import './animations.css';
+@import './components/nav.css';
+@import './components/hero.css';
+@import './components/buttons.css';
+@import './components/cards.css';
+@import './components/form.css';
+@import './components/footer.css';
+
+/* ── Smooth scroll ── */
+html { scroll-behavior: smooth; }
+
+/* ── About section ── */
+.about__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.about__text p {
+  color: #8E9BAA;
+  line-height: 1.8;
+  margin-bottom: var(--space-4);
+}
+
+.about__text p:last-of-type { margin-bottom: 0; }
+
+/* ── Philosophy section ── */
+.philosophy {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.philosophy__bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.035;
+  pointer-events: none;
+}
+
+.philosophy__bg svg {
+  width: 600px;
+  height: 600px;
+  max-width: 100%;
+}
+
+.philosophy__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.philosophy__quote-mark {
+  font-size: 6rem;
+  line-height: 0.5;
+  color: var(--color-amber);
+  font-family: var(--font-quote);
+  margin-bottom: var(--space-6);
+  display: block;
+  opacity: 0.6;
+}
+
+.philosophy__quote {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  line-height: 1.45;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+}
+
+.philosophy__author {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+}
+
+.philosophy__subtext {
+  margin-top: var(--space-8);
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+/* ── Counters ── */
+.counters {
+  display: flex;
+  gap: var(--space-12);
+  margin-top: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.counter__value {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: var(--color-amber);
+  line-height: 1;
+}
+
+.counter__label {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+/* ── Region / Map section ── */
+.region__map-wrap {
+  position: relative;
+}
+
+.region__map {
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+/* ── Contact section ── */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.contact-info__title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.contact-info__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.contact-info__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color var(--duration) var(--ease);
+}
+
+.contact-info__item:hover { color: var(--color-amber); }
+
+.contact-info__item svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-amber);
+  flex-shrink: 0;
+}
+
+.contact-hours {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.contact-hours__title {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  margin-bottom: var(--space-3);
+}
+
+.contact-hours p {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+/* Legal pages */
+.legal-page {
+  padding-top: calc(var(--nav-height) + var(--space-12));
+  padding-bottom: var(--space-24);
+}
+
+.legal-page h1 {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-8);
+}
+
+.legal-page h2 {
+  font-size: var(--text-xl);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+}
+
+.legal-page p,
+.legal-page li {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.8;
+  margin-bottom: var(--space-3);
+}
+
+.legal-page ul { margin-left: var(--space-4); }
+.legal-page li { list-style: disc; }
+.legal-page a { color: var(--color-amber); }

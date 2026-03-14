@@ -1,0 +1,48 @@
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.section-label {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  margin-bottom: var(--space-3);
+}
+
+.section-title {
+  font-size: var(--text-4xl);
+  line-height: 1.1;
+  margin-bottom: var(--space-4);
+}
+
+.section-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-muted);
+  max-width: 540px;
+  line-height: 1.7;
+}
+
+.text-amber { color: var(--color-amber); }
+.text-muted { color: var(--color-muted); }
+
+/* Light sections */
+.section--light h1,
+.section--light h2,
+.section--light h3,
+.section--light h4 { color: var(--color-dark-text); }
+.section--light body,
+.section--light p,
+.section--light .section-subtitle { color: #3a4a5a; }
+.section--light .section-label { color: var(--color-north-sea); }

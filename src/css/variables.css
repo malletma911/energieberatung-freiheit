@@ -1,0 +1,64 @@
+:root {
+  /* Colors */
+  --color-bg:        #0F1923;
+  --color-surface:   #162433;
+  --color-surface-2: #1d3147;
+  --color-amber:     #E8A838;
+  --color-amber-dim: rgba(232, 168, 56, 0.12);
+  --color-amber-glow:rgba(232, 168, 56, 0.25);
+  --color-north-sea: #3A7CA5;
+  --color-text:      #F2F0EB;
+  --color-muted:     #8E9BAA;
+  --color-light-bg:  #F7F5F2;
+  --color-light-bg-2:#EEE9E3;
+  --color-dark-text: #1C2B3A;
+  --color-border:    rgba(255,255,255,0.07);
+
+  /* Typography */
+  --font-heading: 'Syne', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-quote:   'Playfair Display', serif;
+
+  /* Type scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  clamp(1.5rem, 3vw, 2rem);
+  --text-4xl:  clamp(2rem, 4vw, 2.8rem);
+  --text-5xl:  clamp(2.5rem, 6vw, 4rem);
+  --text-hero: clamp(2.8rem, 7vw, 5rem);
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Layout */
+  --container: 1200px;
+  --container-text: 720px;
+  --nav-height: 72px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 20px;
+
+  /* Shadows */
+  --shadow-card:  0 4px 24px rgba(0,0,0,0.25);
+  --shadow-hover: 0 8px 40px rgba(0,0,0,0.35);
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration: 0.28s;
+}
